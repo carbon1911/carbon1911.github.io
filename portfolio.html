@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta charset="utf-8">
+	<link href="//fonts.googleapis.com/css?family=Roboto+Serif" rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
+</head>
+
+<style>
+
+[class*="col-"] {
+	font-family: 'Roboto Serif';
+	background: #303235;
+}
+
+body {
+	font-family: 'Roboto Serif';
+	background: #303235;
+	margin: 0 50vmin;
+}
+
+@media only screen and (max-width: 768px) {
+	body {
+		/* font-family: 'Roboto Serif';
+		background: #303235; */
+		margin: 0 10vmin;
+	}
+}
+
+h1 {
+	color: rgb(233, 231, 213);
+}
+
+p {
+	color: rgb(233, 231, 213);
+}
+
+li {
+	color: rgb(233, 231, 213);
+}
+
+.back {
+	float: top;	
+	width: 50%;
+	/* text-align: center; */
+	/* padding-left: 20px; */
+	transition: all 0.3s ease;
+	color: grey;
+	background: #303235;
+	font-size: 50px;
+	display: block;
+}
+</style>
+
+<body>
+	<a href="index.html">
+		<div class="back" href="index.html">
+			<i id="back" class="fa fa-chevron-left"></i>
+			<span class="backText">Back</span>
+		</div>
+	</a>
+
+	<hr>
+
+	<h1 class="unnumbered" id="introduction">Introduction</h1>
+		<p>Though my graphical work might not be relevant for this position, I
+		decided to include it in this portfolio. I did this because despite
+		professionally being a programmer I consider other forms of art a part
+		of my lifelong work that has helped to shape me as well.</p>
+	<h1 id="applications">Applications</h1>
+	<ul>
+	<li><p>An OpenGL application that serves for cell and mitochondria
+	visualisation. I’ve included this application as a showcase of various
+	shaders which include semi-transparent cell membrane rendering. Next
+	shader implements metaball technique for mitochondria visualisation
+	based on sphere centers and radii only, i.e., no mesh data is necessary
+	for rendering. Renders from the application are available <a
+	href="https://imgur.com/a/LrSzmXI">here</a>.</p></li>
+	<li><p><strong>Batch Image Processor</strong> – A console application
+	written in C# encapsulating various image processing methods. The
+	application enables the user to process multiple images in parallel and
+	is designed to be easily extensible programmatically by user-defined
+	image processing methods. The <a
+	href="https://bitbucket.org/carbon1911/batch-image-processor/src/master/">source
+	code</a>.</p></li>
+	<li><p><strong>Wood</strong> – The application generates different wood
+	textures according to a selected type of tree. The <a
+	href="https://bitbucket.org/carbon1911/wood/src/master/">source
+	code</a>.</p></li>
+	<li><p><strong>PA166-Tester</strong> – A teaching application with GUI.
+	My contribution to the application consisted in the implementation of
+	parametric active contours model along with GUI for an accessible user
+	manipulation. Active contours are a tool similar to the magnetic lasso
+	in Photoshop used for semiautomatic edge detection. The contribution was
+	a result of my <a href="https://is.muni.cz/th/dvsk9/">bachelor
+	thesis</a>. Screenshots from the application are available <a
+	href="https://imgur.com/a/6q4AgoT">here</a>.</p></li>
+	<li><p><strong>PALMS_CBIA</strong> – This is a GPU implementation of
+	Piecewise Affine(-Linear) Mumford-Shah image segmentation method using
+	CUDA/C++. GPU implementation was created as a counterpart to an existing
+	CPU implementation. This is a relatively new scientific method and its
+	GPU implementation might be considered the first of its kind. A simple
+	benchmarking framework is included. The <a
+	href="https://bitbucket.org/carbon1911/palms-cbia/src/master/">source
+	code</a>.</p></li>
+	</ul>
+	<h1 id="games">Games</h1>
+	<ul>
+	<li><p><strong>Sticky Racing</strong> – A prototype of a cartoon RC cars
+	racing game. Player can stick to the walls and perceive suburban house
+	interior from previously unseen perspective. The game was developed in a
+	team of three people. I was in charge of camera positioning, level
+	design and kitchen assets modeling. Build is available at <a
+	href="https://bitbucket.org/Ferdibrabec/sticky-racing/wiki/Home">this</a>
+	link.</p></li>
+	<li><p><strong>The Planet Full of Monsters</strong> – A playable
+	prototype of a board game developed in a team of three people. The game
+	is for 4 players who find themselves cast away on the Planet Full of
+	Monsters. The goal is to collect all parts of your crashed space ship,
+	repair it and leave the planet while fighting the monsters controlled by
+	other players. The fighting system is based on the Goofspiel. My role in
+	the game was the gameboard and cards illustration as well as playtesting
+	with the rest of the members of the team. The prototype with rules in
+	czech language is available <a
+	href="https://drive.google.com/drive/folders/1JIZBX4lccGoU7Kb-IViF4LhmyKpLbnXf?usp=sharing">here</a>.</p></li>
+	<li><p><strong>Five in a Row</strong> – A classical browser game with a
+	custom AI algorithm and an infinite game board. You can try to beat the
+	AI <a href="https://www.fi.muni.cz/~xcicman/fiveinarow.html">here</a>.
+	For the best experience use Google Chrome, please.</p></li>
+	<li><p><strong>Couchsurfer</strong> – An early prototype of a 2D browser
+	sidescrolling generative game. The player runs on an infinite sofa while
+	trying to avoid various obstacles such as ashtrays, beer bottles and
+	more. Obstacles are generated based on provided music track. We worked
+	on this game in a team of three people and I was in charge of animation
+	and assets design. The game is available <a
+	href="https://drive.google.com/drive/folders/1RSZEQbq4w7XKfOCs8oF_G70EXgXwTlg_?usp=sharing">here</a>.</p></li>
+	</ul>
+	<h1 id="graphics">Graphics</h1>
+	<ul>
+	<li><p>A sculpted skull with extracted normal maps applied to a lowpoly
+	model. Renders are available at <a
+	href="https://imgur.com/a/pSWvFBS">this</a> link.</p></li>
+	<li><p>Broken robot inspired by Dreadnought from Warhammer 40K universe
+	and Combat Bot from Thief II: Metal Age. Renders are available at <a
+	href="https://imgur.com/a/RXwNYcS">this</a> link.</p></li>
+	<li><p>Simple lowpoly back alley with physically based light. Renders
+	are available at <a href="https://imgur.com/a/RXwNYcS">this</a>
+	link.</p></li>
+	<li><p>Renders of a grunge back alley with a parked car along with a
+	police car chase video. Some assets exported from GTA San Andreas were
+	used in the video. Renders are available at <a
+	href="https://imgur.com/a/bF5SMuV">this</a> link.</p></li>
+	<li><p><strong>Colin Grey</strong> – Cartoon lowpoly figure with blue
+	lit hair. Renders are available at <a
+	href="https://imgur.com/a/QfDgNd6">this</a> link.</p></li>
+	<li><p>Face retopology. Screenshots are available at <a
+	href="https://imgur.com/a/thqoTHY">this</a> link.</p></li>
+	</ul>
+	<ul>
+	<li><p>Various 2D graphics can be found at <a
+	href="https://imgur.com/a/LZu86WI">this</a> link.</p></li>
+	<li><p><strong>Back alley shootout</strong> – A collection of cartoon
+	drawings of various persons with their nicknames. Available at <a
+	href="https://imgur.com/a/7C0kjAm">this</a> link.</p></li>
+	</ul>
+	<h1 id="other">Other</h1>
+	<ul>
+	<li><p><strong>FAQ – Music Video</strong> – A music video for the song
+	FAQ by Unstrung Harp. Though the output of this work is a video, it was
+	created as a render from a PC application. The drawings are originals as
+	well and for that sake it was difficult to put the work into one of the
+	previous categories. WIP with assets, without the soundtrack available
+	<a
+	href="https://bitbucket.org/carbon1911/faq-music-video/src/master/">here</a>,
+	resulting music video <a
+	href="https://youtu.be/ITrCntZuP9Q">here</a>.</p></li>
+	</ul></p>
+</body>
+</html>

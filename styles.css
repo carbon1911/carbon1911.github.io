@@ -28,7 +28,7 @@ h1 {
 	padding: 10px 0;
 	transition: all 0.3s ease;
 	color: white;
-	font-size: 4vmax;
+	font-size: 4vmin;
 }
 .sc {
 	background: #ff7700;
@@ -40,8 +40,16 @@ h1 {
 	background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
 }
 .fb {
-	background: #3B5998;	
+	background: #3B5998;
 }
+.in {
+	background: #0077b5;
+}
+
+.portfolio {
+	background: #252525;
+}
+
 .gomoku {
 	background: #555;
 }
