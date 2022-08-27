@@ -10,24 +10,35 @@ body {
 	}
 }
 
+/* Text body */
+
 h1 {
-	color: rgb(233, 231, 213);
+	color: white;
 }
 
 p {
-	color: rgb(233, 231, 213);
+	color: white;
 }
 
 li {
-	color: rgb(233, 231, 213);
+	color: white;
+}
+
+/* Icon horizontal bar */
+.nav {
+	padding: 0px 0px 0px 0px;
+}
+
+.nav li {
+	display: inline;
+}
+
+.nav a {
+	padding: 5px;
+	width: 10%;
+	font-size: 50px;
 }
 
 .back {
-	float: top;	
-	width: 50%;
-	transition: all 0.3s ease;
-	color: grey;
-	background: #303235;
-	font-size: 50px;
-	display: block;
+	color: white;
 }
