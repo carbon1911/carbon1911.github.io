@@ -24,6 +24,14 @@ li {
 	color: white;
 }
 
+a:link {
+	color: grey
+}
+
+a:visited {
+	color: darkgray
+}
+
 /* Icon horizontal bar */
 .nav {
 	padding: 0px 0px 0px 0px;
