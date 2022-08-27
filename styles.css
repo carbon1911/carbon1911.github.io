@@ -14,22 +14,22 @@ h1 {
 	color: white;
 	text-align: center; 
 }
-.icon-bar {
-	width: 90vmin;
-	overflow: auto;
-	margin-left: auto;
-	margin-right: auto;
-}
-.icon-bar a {
-	float: left;	
-	width: 24.5%;
-	margin: 0.25%;
+
+.nav {
 	text-align: center;
-	padding: 10px 0;
-	transition: all 0.3s ease;
-	color: white;
-	font-size: 4vmin;
+	padding: 0px 0px 0px 0px;
 }
+.nav li {
+	display: inline;
+}
+.nav a {
+	display: inline-block;
+	color: white;
+	padding: 5px;
+	width: 10%;
+	font-size: 4vmax;
+}
+
 .sc {
 	background: #ff7700;
 }
@@ -45,11 +45,9 @@ h1 {
 .in {
 	background: #0077b5;
 }
-
 .portfolio {
 	background: #252525;
 }
-
 .gomoku {
 	background: #555;
 }

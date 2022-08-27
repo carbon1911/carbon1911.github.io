@@ -1,0 +1,33 @@
+body {
+	font-family: 'Roboto Serif';
+	background: #303235;
+	margin: 0 50vmin;
+}
+
+@media only screen and (max-width: 768px) {
+	body {
+		margin: 0 10vmin;
+	}
+}
+
+h1 {
+	color: rgb(233, 231, 213);
+}
+
+p {
+	color: rgb(233, 231, 213);
+}
+
+li {
+	color: rgb(233, 231, 213);
+}
+
+.back {
+	float: top;	
+	width: 50%;
+	transition: all 0.3s ease;
+	color: grey;
+	background: #303235;
+	font-size: 50px;
+	display: block;
+}
