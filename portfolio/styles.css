@@ -1,12 +1,12 @@
 body {
 	font-family: 'Roboto Serif';
 	background: #303235;
-	margin: 0 50vmin;
+	margin: 0 50vmin 50vmin 50vmin;
 }
 
 @media only screen and (max-width: 768px) {
 	body {
-		margin: 0 10vmin;
+		margin: 0 10vmin 50vmin 10vmin;
 	}
 }
 
