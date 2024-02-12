@@ -189,6 +189,8 @@ To add the sound to the merged video, I used [MoviePy](https://pypi.org/project/
 
 # (Roughly) Chapter 2 -- after release
 
+Maybe I should have read [this](https://processing.org/tutorials/overview/#dont-start-by-trying-to-build-a-cathedral) before doing the work described in this chapter.
+
 About the time when the video was released, there were still some refactoring actions in progress which I wanted to have finished. Main refactoring points were:
 
 * Reduce the amount of code present in `faq.pde` file
