@@ -105,6 +105,8 @@ I experimented with various zoom levels to display the scenery with. I was think
 
 TODO: try to find the draft of the scenery
 
+# (Roughly) Chapter 1 -- until release -- development
+
 # The business decision
 
 Time has come to choose software for the music video production. The cv05 was made in Adobe After Effects using university computers. After Effects is quite performance heavy application and my computer had a HDD which was sluggish in booting even the OS so the After Effects were scratched. Apart from that, I had a semester long experience with the animation software which I did not consider enough for a project of this scope. On the other hand, I've had some experience with game programming so I told to myself, "Let's script the behavior of all the actors in the scene instead!" Instead of the video editors I chose Processing. I had to think if I wanted to invest time in becoming a better animator or a better programmer.
@@ -181,14 +183,85 @@ To merge the video, I used OpenCV. There's this [cv::VideoWriter](https://docs.o
 
 Here I learned/realized two important things. The thing that I realized is that when reading a directory contents, the files are not sorted (in an alphabetical order.) This is important, since the images that made up the video were numbered. Thus it was necessary to load the images in the order in which they were numbered.
 
-Next, I copied the video loading code snippet from some website, ~~I think it was something like geeks for geeks or similar~~. The snippet first loaded all the images from a directory into a list and only after wrote them to the `VideoWriter` instance. Now my computer started running out of memory in the process of the image loading. I had to rewrite the image loading loop so that it first loads the image, writes it into the `VideoWriter`, then loads the next image and so on. This way, only a single image is stored in the memory and then written to the video immediately. This might be slower, but at least my laptop did not burn.
+Next, I copied the video loading code snippet from some website, ~~I think it was something like geeks for geeks or similar~~. The snippet first loaded all the images from a directory into a list and only after wrote them to the `VideoWriter` instance. Now my computer started running out of memory in the process of the image loading. I had to rewrite the image loading loop so that it first loads the image, writes it into the `VideoWriter` instance, then loads the next image and so on. This way, only a single image is stored in the memory and then written to the `VideoWriter` instance immediately. This might be slower, but at least my laptop did not burn.
 
 To add the sound to the merged video, I used [MoviePy](https://pypi.org/project/moviepy/). There was no interesting story related to working with that module :) Or at least I don't remember it anymore :D
 
-# Chapter 2 The Refactoring 🤦‍♀️
+# (Roughly) Chapter 2 -- after release
 
-During the refactoring phase, I was working with the Xamarin framework which is based around the Model-View-Controller pattern. I was thinking about the Model as a place where all the variables would be stored. The View would be the place where the variables would be displayed and would not modify the Model. The Controller would be the place where the variables would be updated.
+About the time when the video was released, there were still some refactoring actions in progress which I wanted to have finished. Main refactoring points were:
 
-About the time when I was working with the Xamarin framework, I was also reading the [Elm's guide](https://guide.elm-lang.org/) and I was fascinated by the MVU (Model-View-Update) pattern used in the Elm's Playground module. This pattern naturally breaks a game or other interactive code to 3 parts. Every class, or more precisely, its members define the Model. Moreover if the class implements a constant View function and a mutable Update function, it perfectly conforms to the MVU pattern.
+* Reduce the amount of code present in `faq.pde` file
+* More object-oriented graphic transformation stack representation (TODO: reword "object-oriented") with automatic inverse transformation call (e.g. `push*` operation would call the corresponding `pop*` operation automatically).
 
-I decided to adjust the codebase to conform more to the MVU pattern. I only managed to do something like a proof of concept of this effort. However with the previous Transformation refactoring I started getting a feeling that I'm overengineering the codebase. I was thinking about the codebase as a place where I was experimenting with various programming techniques and that this project was becoming a neverending playground. Thus I ended with the MVU conversion before it was finished, leaving the door open for finishing it in the future. Maybe by someone else.
+# `faq.pde` refactor
+
+I've seen many times in various Processing code snippets variables placed as attributes of the main `PApplet` derived class. Since in Processing IDE the main class definition is hidden, these attributes appear as global variables (🤢). I think this is an usual approach when writing Processing code, it gets messy when the program grows and as expected, it is difficult to track the state of the global variables which can be changed from any place in the program.
+
+# GDocs
+
+1. ✅music video development process (till release)
+    * ✅mention platform (Processing)
+        1. ~~(it was pain)~~
+			* ✅missing debugger
+            1. ~~pls never again~~
+                1. ✅or at least – try javascript
+        2. ✅ framework adjusted to the song length
+            * ✅ play modes
+            * ✅ need to take into the account the time to render the image
+    2. ✅hand-drawn 2D assets
+	* ✅expensive HDD operations arising from the image loading
+		* ✅load the fireman images when necessary, not at the start of the sketch
+    3. ✅Python scripts
+
+        3. ✅video merging
+
+            4. ✅e.g. mention that the images shall be loaded gradually, not all at once to not run out of memory
+2. ✅after release
+3. making code nicer (fml)
+
+    4. less code in faq file
+
+        4. in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
+        5. variables moved to the Model of the MVU architecture
+
+    5. minimize the usage of OOP
+        6. rather use functional programming
+            5. Optional & Stream – gj
+            6. not very natural requirement in Java
+    6. automatic “destructors” for the transformations. The idea got gradually bigger. Defined a set of operations to handle the whole drawing part of the app
+
+        7. Drawable framework (is it?)
+
+            7. note – simple structure
+
+                2. single functional interface
+                3. + functions that consume and produce more complex drawables
+                4. minimize OOP
+                    1. use functional programming instead
+            8. describe permitted operations in the Drawable fwk (ifDrawable, ifElseDrawable, etc.)
+
+                5. mention uncertainty in stateful drawables (doOnceDrawable)
+    7. split the app according to the MVU pattern seen in ELM’s Playground: [https://elm-lang.org/examples/mario](https://elm-lang.org/examples/mario) – this attempt is unfinished, however large portion of the work has been done.
+        8. Components were introduced – sorta like a state counterpart to the Drawable concept. Should sorta resemble Unity’s component system, but boy, I am not gonna write that! Used at some places but generally did not pay too much attention
+		
+        9. Model – get rid of global variables. Everything lives in the Model, thus if you want an interaction between some variables, you have to access the Model or some of its members
+        10. Functional approach – mention an _attempt_ to design a functional interface, that is – this was an effort, not a final product.
+        11. Drawable vs. Tickable (whatever name) – the first exists, while the second not and is up to the implementer to reflect the need to update the Model – discuss this design decision (start with e.g. makeGame’s Stream in the view vs List in the state).
+    8. example driven development
+
+        12. “I had so many examples of drawables that I was just refactoring an existing implementation to be backwards compatible, that is to keep working even after making the changes”
+	* 🔃CompletableFuture
+		* Monads
+			* Am I going too far for the scope of this project 😬?
+4. HRL
+
+    9. started by hand-written drawable definition, then continued in yml
+        13. image
+        14. chose yml due to being less verbose than json. Was this a good decision?
+    10. grammar + python that consumes the language + hrl code -> DOM-structured hrl code for simpler parsing in the target language. Our target language is java because of the Processing
+    11. mapped to the Drawable framework
+    12. HRL transformation arguments are Suppliers
+    13. to be finished
+    14. some things to think
+        15. e.g. functions to, e.g., not need to define the firetruck light all the time in each drawable
