@@ -7,7 +7,7 @@ date:   2023-11-03 22:30:45 +0100
 
 # Purpose
 
-I'm writing this text in order to summarize the work done on the music video. And also, if you find any hint in this text, which will help you not only in your programming efforts, that would be a win for me ☺🙂.
+I'm writing this text in order to summarize the work done on the music video. I found it weird telling people about a music video which I made 2 years ago, seeing a surprised look on their face, telling me, "why haven't you showed me that?" I would like to explain the work which I did after the video had been released. And also, if you find any hint in this text, which will help you not only in your programming efforts, that would be a win for me ☺🙂.
 
 # Origins
 
