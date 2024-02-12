@@ -198,6 +198,84 @@ About the time when the video was released, there were still some refactoring ac
 
 I've seen many times in various Processing code snippets variables placed as attributes of the main `PApplet` derived class. Since in Processing IDE the main class definition is hidden, these attributes appear as global variables (🤢). I think this is an usual approach when writing Processing code, it gets messy when the program grows and as expected, it is difficult to track the state of the global variables which can be changed from any place in the program.
 
+The removal of the "global" variables from the sketch was one of the main drivers of the refactoring effort. I tried to group variables which had something in common together. For example a portion of variables were moved to the FireTruck class. E.g., fire truck door, siren or driver images. Also, I tried making functions from some variables which drove the overall state of the sketch, e.g., variables which controlled an elapsed time of the sketch or similar.
+
+# MVU -- Model
+
+The major mental break...through in the refactoring effort was the discovery of the MVU pattern in [ELM’s Playground](https://elm-lang.org/examples/mario). The way I used the MVU patter is that the Model is Updated by the update function. The model is then rendered by the view function. Maybe that's not the MVU pattern anymore, but I think that the MVU pattern is a good way to think about the sketch state. The model is the state of the sketch.
+
+After the refactor, the global variables were moved to the Model. The consequence of the refactor is the emerging order of the variables initialization. Let me explain with a snippet of code:
+
+```java
+class faq extends PApplet
+{
+    // image a, b and c are instances of different objects.
+    Object a = new Object();
+
+    // suppose c is a part of the b (composition in UML). E.g., c is a siren
+    // and b is a fire truck, thus c can be a member of b.
+    Object b = new Object();
+    Object c = new Object();
+
+    void tick()
+    {
+        // suppose b, c don't tick, only a ticks.
+        a.moveTo(c.getPosition());
+    }
+
+    void draw()
+    {
+        a.display();
+        b.display();
+        c.display();
+    }
+}
+```
+
+vs.
+
+```java
+
+class Model
+{
+    // Note c is not a member anymore, just a local variable.
+    // Also note that the order of the initialization of a, b, c matters now (c must be initialized before a, b).
+
+    public Object a;
+    public Object b;
+
+    public Model()
+    {
+        var c = new Object();
+        a = // initialize a from c
+        b = // initialize b from c
+    }
+}
+
+class faq extends PApplet
+{
+    Model m = new Model();
+
+    void tick()
+    {
+        // the update logic is called in a's tick
+        m.a.tick();
+    }
+
+    void draw()
+    {
+        m.a.display();
+        m.b.display();
+    }
+}
+
+```
+Note that the first and last line of `faq` class definition is invisible for the Processing developer. I've left the lines just to make the code less confusing for a regular java programmer. The developer only sees the "guts" of the class. This is similar to the [C# Top-level statements](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements).
+
+Of course, I considered OK keeping the constants in the `faq` file.
+
+# MVU -- Update & View
+
 # GDocs
 
 1. ✅music video development process (till release)
@@ -220,10 +298,10 @@ I've seen many times in various Processing code snippets variables placed as att
 2. ✅after release
 3. making code nicer (fml)
 
-    4. less code in faq file
+    4. 🔃less code in faq file
 
         4. in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
-        5. variables moved to the Model of the MVU architecture
+        5. ✅variables moved to the Model of the MVU architecture
 
     5. minimize the usage of OOP
         6. rather use functional programming
