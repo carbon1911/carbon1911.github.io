@@ -7,7 +7,7 @@ date:   2023-11-03 22:30:45 +0100
 
 # Purpose
 
-I'm writing this text in order to summarize the work done on the music video. I found it weird telling people about a music video which I made 2 years ago, seeing a surprised look on their face, telling me, "why haven't you showed me that?" I would like to explain the work which I did after the video had been released. And also, if you find any hint in this text, which will help you not only in your programming efforts, that would be a win for me ☺🙂.
+I'm writing this text in order to summarize the work done on the music video. I found it weird telling my friends about a music video which I made 2 years ago, seeing a surprised look on their face, telling me, "why haven't you showed me that?" I would like to explain the work which I did after the video had been released. And also, if you find any hint in this text, which will help you not only in your programming efforts, that would be a win for me ☺🙂.
 
 # Origins
 
@@ -67,7 +67,7 @@ The constantly changing scale of the video was adjusted to the song length too. 
 
 The rendering was locked to 24 FPS. This would give us a constant Δ per second or frame. I also incorporated an empirically obtained constant to compensate for the frames which needed more than 1/24 of second to render, which is for example the first few frames of the video. I cannot explain this phenomenon, but I think that it is caused by the system warm-up.
 
-# Play modes
+# Play modes <a id="play_modes"></a>
 
 If I remember correctly, the first animations produced were the fire exit and the hanging telephone. I bound the door animation triggering to the letter 'O' and played with the sketch, delighted by watching the door open and close when the 'O' was presseed. It was easy to confirm the things were working when it was possible to trigger them on the user input. The debugging process was getting more complicated with the debugging of more complicated firemen states. I think the most problematic thing was to check the firemen when they were returning back to the firetruck and entering it. First of all, there was a stack of additional transformations applied to the animation images. The firemen are getting gradually smaller as they are getting closer to the firetruck. The animation image is also mirrored. It took me some time (and approximative values) to align the firemen correctly with the firetruck door.
 
@@ -75,7 +75,7 @@ I implemented 3 play modes all of which would output the video in a different ma
 
 # Graphical assets
 
-So I drew all the assets in the music video. I drew most of the assets using the computer mouse, only later I realized I have a graphic tablet. The firemen were drawn as last. I used the graphic tablet for the second fireman, the one with the fire extinguisher. The other one was still drawn with the mouse.
+So I drew all the assets in the music video. I drew most of the assets using a computer mouse, only later I realized I have a graphic tablet. The firemen were drawn as last. I used the graphic tablet for the second fireman, the one with the fire extinguisher. The other one was still drawn with the mouse.
 
 After some time I realized that the drawing part are created faster than the code counterpart. I think, had I done the music video again, I would use a video editor for that purpose.
 
@@ -96,6 +96,19 @@ void display()
 
 Later, during the refactor phase, I learned about the `CompletableFuture` class which simplified the above code to a simple `animation.join().display()`. I used the `CompletableFuture` with the default `ForkJoinPool.commonPool()`. Only later I realized that that this changes the video loading semantics. The common pool loads the `CompletableFuture` immediately, only this time all futures are loaded in parallel. Anyway, the `CompletableFuture` sped up the video loading and reduced the amount of code.
 
+# Images ➕ soundtrack ➡ music video
+After [the problems with the frame timing](#play_modes) were solved, I needed to convert the images to a video and add the soundtrack. I used Python language to achieve that (why haven't I used a video editor? I guess I was afraid of licensing?)
+
+To merge the video, I used OpenCV. There's this [cv::VideoWriter](https://docs.opencv.org/4.x/dd/d9e/classcv_1_1VideoWriter.html) (sorry, I was too lazy to search for Python docs or TODO). Just very quick description of how to work with the `VideoWriter` in Python -- one creates an instance of the `writer = cv2.VideoWriter(...)`, then write all images that should be a part of the video `writer.write(img)`. After we're done with the images' writing, we dispose of the writer `writer.release()`.
+
+Here I learned/realized two important things. The thing that I realized is that when reading a directory contents, the files are not sorted (in an alphabetical order.) This is important, since the images that made up the video were numbered. Thus it was necessary to load the images in the order in which they were numbered.
+
+Next, I copied the video loading code snippet from some website, ~~I think it was something like geeks for geeks or similar~~. The snippet first loaded all the images from a directory into a list and only after wrote them to the `VideoWriter` instance. Now my computer started running out of memory in the process of the image loading. I had to rewrite the image loading loop so that it first loads the image, writes it into the `VideoWriter`, then loads the next image and so on. This way, only a single image is stored in the memory and then written to the video immediately. This might be slower, but at least my laptop did not burn.
+
+To add the sound to the merged video, I used [MoviePy](https://pypi.org/project/moviepy/). There was no interesting story related to working with that module :) Or at least I don't remember it anymore :D
+
+
+
 # GDocs
 
 1. music video development process (till release)
@@ -108,12 +121,13 @@ Later, during the refactor phase, I learned about the `CompletableFuture` class 
             * ✅ play modes
             * ✅ need to take into the account the time to render the image
     2. ✅hand-drawn 2D assets
-	* expensive HDD operations arising from the image loading
+	* ✅expensive HDD operations arising from the image loading
 		* ✅load the fireman images when necessary, not at the start of the sketch
-    3. Python scripts
+    3. ✅Python scripts
 
-        3. video merging
-            4. e.g. mention that the images shall be loaded gradually, not all at once to not run out of memory
+        3. ✅video merging
+
+            4. ✅e.g. mention that the images shall be loaded gradually, not all at once to not run out of memory
 2. after release
 3. making code nicer (fml)
 
