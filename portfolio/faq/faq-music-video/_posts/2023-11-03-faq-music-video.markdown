@@ -202,6 +202,8 @@ I've seen many times in various Processing code snippets variables placed as att
 
 The removal of the "global" variables from the sketch was one of the main drivers of the refactoring effort. I tried to group variables which had something in common together. For example a portion of variables were moved to the FireTruck class. E.g., fire truck door, siren or driver images. Also, I tried making functions from some variables which drove the overall state of the sketch, e.g., variables which controlled an elapsed time of the sketch or similar.
 
+The next refactor item was data-driven approach to the scene objects initialization. I was able to define certain properties of some objects in the time of their creation, kind of like using a builder pattern. I wanted to take this approach further and define the whole scene in a data-driven way. The first step in this process was the [Transformation](#Transformation) class effort. The `Transformation` class instances are meant to be composed in a data-driven way.
+
 # More refactoring -- use functional programming λ
 
 As a result of the inspiration by the Elm language I tried to do the refactoring in a more functional way, which might not seem as a very natural requirement in Java language. Overall, looking back I think that the decision to use the functional programming more over OOP approach slowed the development down. That was caused by the fact that I had to adapt to the functional programming style. I have had some experience with functional programming in the past and it was quite interesting to see the concepts from the languages like Elm or Haskell applied in Java, but that was also the point where one would appreciate greatly the brevity of the syntax of the functional languages. The discussed brevity is one of the factors why I mention that the functional approach is not very natural in Java. At least in my opinion.
@@ -339,7 +341,8 @@ In Processing, you can use multiple canvases to draw to. You can apply various s
             4. ✅e.g. mention that the images shall be loaded gradually, not all at once to not run out of memory
 2. ✅after release
 3. making code nicer (fml)
-
+    * 🔃data driven approach
+        * an object's behavior is known when created, you don't have to read the code in its tick/draw method
     4. ✅less code in faq file
 
         4. ✅in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
