@@ -310,6 +310,14 @@ One of the motivations of the refactor was that the update of the drawable colle
 
 The Update part turned out to be, similar to View, represented by a `Tickable` interface with a single `tick` method. You can place any code in the `tick` method, especially you're allowed to use a code which changes the state of some `Model` member, or would return a new `record` with an updated state, unfortunately, `record`s were not supported in Processing 4.2.
 
+# Chapter 3 or 2.1
+
+This had happened before the release of the video, but the idea was finished only after the release. Since the Transformation idea had happened before the release, I did not want to place it in the 2nd chapter. On the other hand, I'm not sure if this topic deserves its own chapter.
+
+# Transformation
+
+In Processing, you can use multiple canvases to draw to. You can apply various styles (line color, line width, ellipse drawing mode and more) or transformations (rotation, skew, translation, ...) to each canvas. As the number of the objects in the scene, all of which use different sequence of styles/transformations to draw, grow, it becomes more difficult to keep track of the canvas drawing state.
+
 # GDocs
 
 1. ✅music video development process (till release)
