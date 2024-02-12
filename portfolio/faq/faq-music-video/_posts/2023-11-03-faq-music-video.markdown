@@ -324,6 +324,33 @@ This had happened before the release of the video, but the idea was finished onl
 
 In Processing, you can use multiple canvases to draw to. You can apply various styles (line color, line width, ellipse drawing mode and more) or transformations (rotation, skew, translation, ...) to each canvas. As the number of the objects in the scene, all of which use different sequence of styles/transformations to draw, grow, it becomes more difficult to keep track of the canvas drawing state.
 
+# Trouble
+
+I've spent a long time designing the interface of the `Transformation` and maybe even more time implementing it. It was the typical example of not having a clear vision of what should be achieved before getting into the implementation.
+
+Don't remember exactly but initially the `Transformation` look like this:
+
+```java
+interface Transformation
+{
+    // Applied before the draw operation.
+    void pre(PGraphics canvas);
+
+    // Applied after the draw operation to revert the canvas state.
+    void post(PGraphics canvas);
+}
+```
+
+and an overloaded version of the `pre` method which would accept various arguments for the transformation, e.g., vector for the translation, angle for the rotation, etc. Every translation would be represented by an anonymous class implementing the `Transformation` interface.
+
+```java
+
+
+
+```
+
+The first draft was meant to look like this
+
 # Value vs. Supplier
 
 # GDocs
@@ -347,7 +374,7 @@ In Processing, you can use multiple canvases to draw to. You can apply various s
             4. ✅e.g. mention that the images shall be loaded gradually, not all at once to not run out of memory
 2. ✅after release
 3. making code nicer (fml)
-    * 🔃data driven approach
+    * ✅data driven approach
         * an object's behavior is known when created, you don't have to read the code in its tick/draw method
     4. ✅less code in faq file
 
