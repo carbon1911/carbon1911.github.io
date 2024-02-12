@@ -337,8 +337,8 @@ The Update part turned out to be, similar to View, represented by a `Tickable` i
         4. ✅in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
         5. ✅variables moved to the Model of the MVU architecture
 
-    5. minimize the usage of OOP
-        6. 🔃rather use functional programming
+    5. ✅minimize the usage of OOP
+        6. ✅rather use functional programming
             5. ✅Optional & Stream – gj
             6. ✅not very natural requirement in Java
     6. automatic “destructors” for the transformations. The idea got gradually bigger. Defined a set of operations to handle the whole drawing part of the app
