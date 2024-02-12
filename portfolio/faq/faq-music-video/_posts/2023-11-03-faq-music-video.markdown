@@ -5,6 +5,10 @@ date:   2023-11-03 22:30:45 +0100
 # categories: jekyll update
 ---
 
+# Purpose
+
+I'm writing this text in order to summarize the work done on the music video. And also, if you find any hint in this text, which will help you not only in your programming efforts, that would be a win for me ☺🙂.
+
 # Origins
 
 I started to write this text on November 3rd 2023.
@@ -69,6 +73,28 @@ If I remember correctly, the first animations produced were the fire exit and th
 
 I implemented 3 play modes all of which would output the video in a different manner. The basic play mode called WITH_SONG renders the music video in the real time with a present constant scale change and the playing song. I used capital letters because it is one of the enumeration values of the PlayMode enum. (No, I'm noy yelling (for now).) The output of this game mode resembles the canonic version of the music video on the YouTube. In order to accelerate the development process a bit, I implemented an additional play mode called DEBUG. In the DEBUG play mode the song is not loaded, which on my current computer (IdeaPad 5 14ARE05) saves about 5 seconds per sketch run. The scale change is also disabled in the DEBUG mode. The last play mode is called EXPORT. This mode behaves has enabled scale change and does not load the song. It was used to obtain the final render of the video. The major change consists in a fact that this play mode also saves the rendered image to the disk which is a slow operation. It took something less than a second to render a single frame. I used Processing's `millis` function to measure the time elapsed since the sketch start and used it to trigger the events in the video. You can imagine that the tick functionality was broken, since, e.g., the mentioned smoke would start rendering some time around 16th frame, whereas we wanted it to start around 16th second. And so I overcame this by writing a function which would map elapsed frames to a corresponding elapsed time in milliseconds if the rendering ran exactly 24 FPS. (Now that I'm thinking about it, I could have used this approach in the WITH_SONG play mode too. TODO: check this).
 
+# Graphical assets
+
+So I drew all the assets in the music video. I drew most of the assets using the computer mouse, only later I realized I have a graphic tablet. The firemen were drawn as last. I used the graphic tablet for the second fireman, the one with the fire extinguisher. The other one was still drawn with the mouse.
+
+After some time I realized that the drawing part are created faster than the code counterpart. I think, had I done the music video again, I would use a video editor for that purpose.
+
+As was mentioned already, the asset loading is slow. The number of fireman animations was growing. All of them were loaded before the start of the video. The video loading was getting slower, so I reworked the fireman animation loading. The animation was loaded only when it was used for the first time. This caused slight stuttering in the DEBUG mode but sped up the video loading.
+
+Before the refactor, the fireman's `display` method would look something like this:
+
+```java
+void display()
+{
+    if (animation == null)
+    {
+        animation = loadAnimation();
+    }
+    animation.display();
+}
+```
+
+Later, during the refactor phase, I learned about the `CompletableFuture` class which simplified the above code to a simple `animation.join().display()`. I used the `CompletableFuture` with the default `ForkJoinPool.commonPool()`. Only later I realized that that this changes the video loading semantics. The common pool loads the `CompletableFuture` immediately, only this time all futures are loaded in parallel. Anyway, the `CompletableFuture` sped up the video loading and reduced the amount of code.
 
 # GDocs
 
@@ -81,9 +107,9 @@ I implemented 3 play modes all of which would output the video in a different ma
         2. ✅ framework adjusted to the song length
             * ✅ play modes
             * ✅ need to take into the account the time to render the image
-    2. hand-drawn 2D assets
+    2. ✅hand-drawn 2D assets
 	* expensive HDD operations arising from the image loading
-		* load the fireman images when necessary, not at the start of the sketch
+		* ✅load the fireman images when necessary, not at the start of the sketch
     3. Python scripts
 
         3. video merging
@@ -122,7 +148,7 @@ I implemented 3 play modes all of which would output the video in a different ma
     8. example driven development
 
         12. “I had so many examples of drawables that I was just refactoring an existing implementation to be backwards compatible, that is to keep working even after making the changes”
-	* CompletableFuture
+	* 🔃CompletableFuture
 		* Monads
 			* Am I going too far for the scope of this project 😬?
 4. HRL
