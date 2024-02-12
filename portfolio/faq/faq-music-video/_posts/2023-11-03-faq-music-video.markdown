@@ -276,7 +276,29 @@ In the end, my goal was that content of the `faq.pde` resembles the `main` funct
 
 Of course, I considered OK keeping the constants in the `faq` file.
 
-# MVU -- Update & View
+# MVU -- View
+
+Similar to the `Model` class, I've created the `Drawable` interface. In fact, this interface had existed before the refactor and I an idea that every object which can be drawn, will be stored in a collection, and in the global `draw` method a `display` method will be called on every member of the collection. I decided to call the `Drawable` method `display` rather than `draw` to avoid confusion with the `draw` method of the `PApplet` class. The idea of the collection worked quite well, however, at the time of the video release, there was a crazy inheritance hierarchy of the classes representing the lights. As a result, the straightforward `display` method call on the collection items turned out to look like this:
+
+```java
+for (Drawable d : drawSequence)
+{
+    if (d instanceof TurnedOffLight)
+    {
+        TurnedOffLight dLight = (TurnedOffLight)d;
+        dLight.setLightState(turnedOffLight);
+    }
+    d.display();
+}
+```
+
+The biggest problem in the code, among other, is the use of `instanceof`. That is a code smell and I wanted to get rid of it. You can check out the commit `a41bc0cc7652ab736fbb7bac5fbb988366f3c7f3`, files `faq.pde` and `Light.pde`. See the latter to see the inheritance hierarchy of the light. I was trying to solve the inheritance problem with [Drawable decorators](), but I'll talk about that later.
+
+Let's return back to the Update & View. In particular, I'll talk more about the View part, since I dedicated more time to that component. 
+
+# MVU -- Update
+
+The Update part turned out to be, similar to View, represented by a `Tickable` interface with a single `tick` method. You can place any code in the `tick` method, especially you're allowed to use a code which changes the state of some `Model` member, or would return a new `record` with an updated state, unfortunately, `record`s were not supported in Processing 4.2.
 
 # GDocs
 
@@ -300,7 +322,7 @@ Of course, I considered OK keeping the constants in the `faq` file.
 2. ✅after release
 3. making code nicer (fml)
 
-    4. 🔃less code in faq file
+    4. ✅less code in faq file
 
         4. ✅in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
         5. ✅variables moved to the Model of the MVU architecture
@@ -322,12 +344,12 @@ Of course, I considered OK keeping the constants in the `faq` file.
             8. describe permitted operations in the Drawable fwk (ifDrawable, ifElseDrawable, etc.)
 
                 5. mention uncertainty in stateful drawables (doOnceDrawable)
-    7. split the app according to the MVU pattern seen in ELM’s Playground: [https://elm-lang.org/examples/mario](https://elm-lang.org/examples/mario) – this attempt is unfinished, however large portion of the work has been done.
+    7. 🔃split the app according to the MVU pattern seen in ELM’s Playground: [https://elm-lang.org/examples/mario](https://elm-lang.org/examples/mario) – this attempt is unfinished, however large portion of the work has been done.
         8. Components were introduced – sorta like a state counterpart to the Drawable concept. Should sorta resemble Unity’s component system, but boy, I am not gonna write that! Used at some places but generally did not pay too much attention
 		
-        9. Model – get rid of global variables. Everything lives in the Model, thus if you want an interaction between some variables, you have to access the Model or some of its members
+        9. 🔃Model – get rid of global variables. Everything lives in the Model, thus if you want an interaction between some variables, you have to access the Model or some of its members
         10. Functional approach – mention an _attempt_ to design a functional interface, that is – this was an effort, not a final product.
-        11. Drawable vs. Tickable (whatever name) – the first exists, while the second not and is up to the implementer to reflect the need to update the Model – discuss this design decision (start with e.g. makeGame’s Stream in the view vs List in the state).
+        11. 🔃Drawable vs. Tickable (whatever name) – the first exists, while the second not and is up to the implementer to reflect the need to update the Model – discuss this design decision (start with e.g. makeGame’s Stream in the view vs List in the state).
     8. example driven development
 
         12. “I had so many examples of drawables that I was just refactoring an existing implementation to be backwards compatible, that is to keep working even after making the changes”
