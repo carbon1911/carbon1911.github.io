@@ -85,7 +85,7 @@ date:   2023-11-03 22:30:45 +0100
 
 I'm writing this text in order to summarize the work done on the music video. I found it weird telling my friends about a music video which I made 2 years ago, seeing a surprised look on their face, telling me, "why haven't you showed me that?" I would like to explain the work which I did after the video had been released. And also, if you find any hint in this text, which will help you not only in your programming efforts, that would be a win for me ☺🙂.
 
-# Chapter 1 The Development
+Also, this text is written retrospectively, which means that I'm trying to recall the events which happened 2 years ago. I'm not sure if I remember everything correctly, but I'll try to be as accurate as possible.
 
 # Origins
 
@@ -202,7 +202,11 @@ I've seen many times in various Processing code snippets variables placed as att
 
 The removal of the "global" variables from the sketch was one of the main drivers of the refactoring effort. I tried to group variables which had something in common together. For example a portion of variables were moved to the FireTruck class. E.g., fire truck door, siren or driver images. Also, I tried making functions from some variables which drove the overall state of the sketch, e.g., variables which controlled an elapsed time of the sketch or similar.
 
-The next refactor item was data-driven approach to the scene objects initialization. I was able to define certain properties of some objects in the time of their creation, kind of like using a builder pattern. I wanted to take this approach further and define the whole scene in a data-driven way. The first step in this process was the [Transformation](#Transformation) class effort. The `Transformation` class instances are meant to be composed in a data-driven way.
+# Data-driven approach
+
+The next refactor item was data-driven approach to the scene objects initialization. I was able to define certain properties of some objects in the time of their creation, kind of like using a builder pattern/overloaded constructor. I wanted to take this approach further and define the whole scene in a data-driven way. The first step in this process was the [Transformation](#Transformation) TODO: fix link class effort. The `Transformation` class instances are meant to be composed in a data-driven way. Another example would be the `Animation` class whose constructor accepts the path to the animation images, but can also be constructed with additional arguments modifying the animation behavior, e.g., the animation speed.
+
+The advantage of reworking the code in the data-driven way is the ability to extract the data part out from the code and eliminate the need to recompile the code when the change in the data part is made. In the terms of this music video, this refactoring decision turned out to be a huge overkill and I think that the data-driven approach is not very suitable for the Processing sketches. The reason is that the Processing sketches are usually small and the data-driven approach is not worth the effort. On the other hand one gains -- though incomplete -- the experience of writing data-driven systems.
 
 # More refactoring -- use functional programming λ
 
@@ -319,6 +323,8 @@ This had happened before the release of the video, but the idea was finished onl
 # Transformation
 
 In Processing, you can use multiple canvases to draw to. You can apply various styles (line color, line width, ellipse drawing mode and more) or transformations (rotation, skew, translation, ...) to each canvas. As the number of the objects in the scene, all of which use different sequence of styles/transformations to draw, grow, it becomes more difficult to keep track of the canvas drawing state.
+
+# Value vs. Supplier
 
 # GDocs
 
