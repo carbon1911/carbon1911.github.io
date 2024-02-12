@@ -200,6 +200,12 @@ I've seen many times in various Processing code snippets variables placed as att
 
 The removal of the "global" variables from the sketch was one of the main drivers of the refactoring effort. I tried to group variables which had something in common together. For example a portion of variables were moved to the FireTruck class. E.g., fire truck door, siren or driver images. Also, I tried making functions from some variables which drove the overall state of the sketch, e.g., variables which controlled an elapsed time of the sketch or similar.
 
+# More refactoring
+
+As a result of the inspiration by the Elm language I tried to do the refactoring in a more functional way, which might not seem as a very natural requirement in Java language. Overall, looking back I think that the decision to use the functional programming more over OOP approach slowed the development down. That was caused by the fact that I had to adapt to the functional programming style. I have had some experience with functional programming in the past and it was quite interesting to see the concepts from the languages like Elm or Haskell applied in Java, but that was also the point where one would appreciate greatly the brevity of the syntax of the functional languages. The discussed brevity is one of the factors why I mention that the functional approach is not very natural in Java.
+
+On the other hand I have learned many new concepts and discovered new interesting classes which make functional programming in Java a bit more bearable. Some of them would be `Optional`, `Stream` and `CompletableFuture`. For example `Optional` class is designed in a monadic way so that the programmer can make complex queries on the `Optional` in a single line of code using a builder pattern and call multiple methods on a single instance of the `Optional` using methods. This is similar in `CompletableFuture`.
+
 # MVU -- Model
 
 The major mental break...through in the refactoring effort was the discovery of the MVU pattern in [ELM’s Playground](https://elm-lang.org/examples/mario). The way I used the MVU patter is that the Model is Updated by the update function. The model is then rendered by the view function. Maybe that's not the MVU pattern anymore, but I think that the MVU pattern is a good way to think about the sketch state. The model represents the state of the sketch.
@@ -278,7 +284,7 @@ Of course, I considered OK keeping the constants in the `faq` file.
 
 # MVU -- View
 
-Similar to the `Model` class, I've created the `Drawable` interface. In fact, this interface had existed before the refactor and I an idea that every object which can be drawn, will be stored in a collection, and in the global `draw` method a `display` method will be called on every member of the collection. I decided to call the `Drawable` method `display` rather than `draw` to avoid confusion with the `draw` method of the `PApplet` class. The idea of the collection worked quite well, however, at the time of the video release, there was a crazy inheritance hierarchy of the classes representing the lights. As a result, the straightforward `display` method call on the collection items turned out to look like this:
+Similar to the `Model` class, I've created the `Drawable` interface to represent the View part of the MVU model. In fact, this interface had existed before the refactor and I an idea that every object which can be drawn, will be stored in a collection, and in the global `draw` method a `display` method will be called on every member of the collection. I decided to call the `Drawable` method `display` rather than `draw` to avoid confusion with the `draw` method of the `PApplet` class. The idea of the collection worked quite well, however, at the time of the video release, there was a crazy inheritance hierarchy of the classes representing the lights. As a result, the straightforward `display` method call on the collection items turned out to look like this:
 
 ```java
 for (Drawable d : drawSequence)
@@ -294,7 +300,7 @@ for (Drawable d : drawSequence)
 
 The biggest problem in the code, among other, is the use of `instanceof`. That is a code smell and I wanted to get rid of it. You can check out the commit `a41bc0cc7652ab736fbb7bac5fbb988366f3c7f3`, files `faq.pde` and `Light.pde`. See the latter to see the inheritance hierarchy of the light. I was trying to solve the inheritance problem with [Drawable decorators](), but I'll talk about that later.
 
-Let's return back to the Update & View. In particular, I'll talk more about the View part, since I dedicated more time to that component. 
+One of the motivations of the refactor was that the update of the drawable collection would be placed in the `faq.pde` file, but the definition of every `Drawable` would lie elsewhere. For example a big part of the drawables is stored in the `Drawable.pde` and `Light.pde` files so you can check those out.
 
 # MVU -- Update
 
@@ -328,9 +334,9 @@ The Update part turned out to be, similar to View, represented by a `Tickable` i
         5. ✅variables moved to the Model of the MVU architecture
 
     5. minimize the usage of OOP
-        6. rather use functional programming
-            5. Optional & Stream – gj
-            6. not very natural requirement in Java
+        6. 🔃rather use functional programming
+            5. ✅Optional & Stream – gj
+            6. ✅not very natural requirement in Java
     6. automatic “destructors” for the transformations. The idea got gradually bigger. Defined a set of operations to handle the whole drawing part of the app
 
         7. Drawable framework (is it?)
