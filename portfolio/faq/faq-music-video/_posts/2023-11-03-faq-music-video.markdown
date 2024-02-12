@@ -45,7 +45,28 @@ the cons of Processing are:
 * Global variables
 	* In the refactoring phase, I tried to get rid of these, I'll talk about that later.
 
-In the beginning I thought that the video would be a small project, but in the time of the release it had around 2700 lines (commit `a41bc0cc7652ab736fbb7bac5fbb988366f3c7f3`, Aug 29th 2021). I think that the Processing IDE is not a very suitable tool for the projects of this size, mainly due to the encouragement of the usage of the global variables and poor debugging features. What is good is to use Processing as a library. Had I made similar project again, or another video, I would try experimenting with the p5.js or spend some time setting up [Processing in Java](https://happycoding.io/tutorials/java/processing-in-java).
+In the beginning I thought that the video would be a small project, but in the time of the release it had around 2700 lines (commit `a41bc0cc7652ab736fbb7bac5fbb988366f3c7f3`, Aug 29th 2021). I think that the Processing IDE is not a very suitable tool for the projects of this size, mainly due to the encouragement of the usage of the global variables and poor debugging features. However what might be a good idea is to use Processing as a library. Had I made similar project again, or another video, I would try experimenting with the p5.js or spend some time setting up [Processing in Java](https://happycoding.io/tutorials/java/processing-in-java).
+
+# Time
+
+Quite unsurprisingly, the timing of the whole video is adjusted to the song which the video follows. As was mentioned in the previous section, certain elements appear upon the first mention in the song. This is reflected in the code with the resolution of seconds. I used Processing's [Sound](https://processing.org/reference/libraries/sound/index.html) library to load the song. For example, for the a snippet of code that would start drawing the stove smoke would look like
+```java
+if (song.position() > 16.0f)
+{
+	drawVerticalSmoke();
+} 
+```
+(yeah, I used Allman brackets in Java 🤦‍♀️) The "choking on smoke" lyrics start at approximately 16th second.
+
+The constantly changing scale of the video was adjusted to the song length too. The constraining factors were the initial, cropped scene view and the final scene. The initial scene is magnified by the factor of 1.4055 compared to the final scene, which is not scaled at all (factor 1.0). The rendering was locked to 24 FPS. This would give us a constant Δ per second or frame. I also incorporated an empirically obtained constant to compensate for the frames which needed more than 1/24 of second to render. But I'll get to that later.
+
+# Play modes
+
+If I remember correctly, the first animations produced were the fire exit and the hanging telephone. I bound the door animation triggering to the letter 'O' and played with the sketch, delighted by watching the door open and close when the 'O' was presseed. It was easy to confirm the things were working when it was possible to trigger them on the user input. The debugging process was getting more complicated with the debugging of more complicated firemen states. I think the most problematic thing was to check the firemen when they were returning back to the firetruck and entering it. First of all, there was a stack of additional transformations applied to the animation images. The firemen are getting gradually smaller as they are getting closer to the firetruck. The animation image is also mirrored. It took me some time (and approximative values) to align the firemen correctly with the firetruck door.
+
+I implemented 3 play modes all of which would output the video in a different manner. The basic play mode called WITH_SONG renders the music video in the real time with a present constant scale change and the playing song. I used capital letters because it is one of the enumeration values of the PlayMode enum. (No, I'm noy yelling (for now).) The output of this game mode resembles the canonic version of the music video on the YouTube. In order to accelerate the development process a bit, I implemented an additional play mode called DEBUG. In the DEBUG play mode the song is not loaded, which on my current computer (IdeaPad 5 14ARE05) saves about 5 seconds per sketch run. The scale change is also disabled in the DEBUG mode. The last play mode is called EXPORT. This mode behaves has enabled scale change and does not load the song. It was used to obtain the final render of the video. The major change consists in a fact that this play mode also saves the rendered image to the disk which is a slow operation. Here we're getting to the frames which took more than 1/24-th of a second to render.
+
+
 
 # GDocs
 
@@ -55,10 +76,9 @@ In the beginning I thought that the video would be a small project, but in the t
 			* ✅missing debugger
             1. ~~pls never again~~
                 1. ✅or at least – try javascript
-        2. framework adjusted to the song length
-
-            2. play modes
-            3. need to take into the account the time to render the image
+        2. 🔃 framework adjusted to the song length
+            * ✅ play modes
+            * need to take into the account the time to render the image
     2. hand-drawn 2D assets
 	* expensive HDD operations arising from the image loading
 		* load the fireman images when necessary, not at the start of the sketch
@@ -96,7 +116,7 @@ In the beginning I thought that the video would be a small project, but in the t
 		
         9. Model – get rid of global variables. Everything lives in the Model, thus if you want an interaction between some variables, you have to access the Model or some of its members
         10. Functional approach – mention an _attempt_ to design a functional interface, that is – this was an effort, not a final product.
-        11. Drawable vs. Tickable (whatever name) – the first exists, while the second not and is up to the implementer to reflect the need to update the Model – discuss this design decision (start with e. g. makeGame’s Stream in the view vs List in the state).
+        11. Drawable vs. Tickable (whatever name) – the first exists, while the second not and is up to the implementer to reflect the need to update the Model – discuss this design decision (start with e.g. makeGame’s Stream in the view vs List in the state).
     8. example driven development
 
         12. “I had so many examples of drawables that I was just refactoring an existing implementation to be backwards compatible, that is to keep working even after making the changes”
@@ -113,4 +133,4 @@ In the beginning I thought that the video would be a small project, but in the t
     12. HRL transformation arguments are Suppliers
     13. to be finished
     14. some things to think
-        15. e. g. functions to, e. g., not need to define the firetruck light all the time in each drawable
+        15. e.g. functions to, e.g., not need to define the firetruck light all the time in each drawable
