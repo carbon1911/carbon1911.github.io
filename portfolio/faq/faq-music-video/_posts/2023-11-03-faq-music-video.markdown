@@ -5,9 +5,87 @@ date:   2023-11-03 22:30:45 +0100
 # categories: jekyll update
 ---
 
+
+# GDocs
+
+1. music video development process (till release)
+    * ✅mention platform (Processing)
+        1. ~~(it was pain)~~
+			* ✅missing debugger
+            1. ~~pls never again~~
+                1. ✅or at least – try javascript
+        2. ✅ framework adjusted to the song length
+            * ✅ play modes
+            * ✅ need to take into the account the time to render the image
+    2. ✅hand-drawn 2D assets
+	* ✅expensive HDD operations arising from the image loading
+		* ✅load the fireman images when necessary, not at the start of the sketch
+    3. ✅Python scripts
+
+        3. ✅video merging
+
+            4. ✅e.g. mention that the images shall be loaded gradually, not all at once to not run out of memory
+2. after release
+3. refactor (fml)
+	* No allocations
+
+    4. less code in faq file
+
+        4. in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
+        5. variables moved to the Model of the MVU architecture
+
+    5. minimize the usage of OOP
+
+        6. rather use functional programming
+		
+            5. Optional & Stream – gj
+            6. not very natural requirement in Java
+
+    6. automatic “destructors” for the transformations. The idea got gradually bigger. Defined a set of operations to handle the whole drawing part of the app
+
+        7. Drawable framework (is it?)
+
+            7. note – simple structure
+
+                2. single functional interface
+                3. + functions that consume and produce more complex drawables
+                4. minimize OOP
+                    1. use functional programming instead
+            8. describe permitted operations in the Drawable fwk (ifDrawable, ifElseDrawable, etc.)
+
+                5. mention uncertainty in stateful drawables (doOnceDrawable)
+    7. ✅split the app according to the MVU pattern seen in ELM’s Playground: [https://elm-lang.org/examples/mario](https://elm-lang.org/examples/mario) – this attempt is unfinished, however large portion of the work has been done.
+
+        8. Components were introduced – sorta like a state counterpart to the Drawable concept. Should sorta resemble Unity’s component system, but boy, I am not gonna write that! Used at some places but generally did not pay too much attention
+        9. Model – get rid of global variables. Everything lives in the Model, thus if you want an interaction between some variables, you have to access the Model or some of its members
+        10. Functional approach – mention an _attempt_ to design a functional interface, that is – this was an effort, not a final product.
+        11. Drawable vs. Tickable (whatever name) – the first exists, while the second not and is up to the implementer to reflect the need to update the Model – discuss this design decision (start with e.g. makeGame’s Stream in the view vs List in the state).
+			* Tickable exists
+    8. example driven development
+
+        12. “I had so many examples of drawables that I was just refactoring an existing implementation to be backwards compatible, that is to keep working even after making the changes”
+	* 🔃CompletableFuture
+		* Monads
+			* Am I going too far for the scope of this project 😬?
+4. HRL
+
+    9. started by hand-written drawable definition, then continued in yml
+        13. image
+        14. chose yml due to being less verbose than json. Was this a good decision?
+    10. grammar + python that consumes the language + hrl code -> DOM-structured hrl code for simpler parsing in the target language. Our target language is java because of the Processing
+    11. mapped to the Drawable framework
+    12. HRL transformation arguments are Suppliers
+    13. to be finished
+    14. some things to think
+        15. e.g. functions to, e.g., not need to define the firetruck light all the time in each drawable
+
+# Start of the text
+
 # Purpose
 
 I'm writing this text in order to summarize the work done on the music video. I found it weird telling my friends about a music video which I made 2 years ago, seeing a surprised look on their face, telling me, "why haven't you showed me that?" I would like to explain the work which I did after the video had been released. And also, if you find any hint in this text, which will help you not only in your programming efforts, that would be a win for me ☺🙂.
+
+# Chapter 1 The Development
 
 # Origins
 
@@ -107,72 +185,10 @@ Next, I copied the video loading code snippet from some website, ~~I think it wa
 
 To add the sound to the merged video, I used [MoviePy](https://pypi.org/project/moviepy/). There was no interesting story related to working with that module :) Or at least I don't remember it anymore :D
 
+# Chapter 2 The Refactoring 🤦‍♀️
 
+During the refactoring phase, I was working with the Xamarin framework which is based around the Model-View-Controller pattern. I was thinking about the Model as a place where all the variables would be stored. The View would be the place where the variables would be displayed and would not modify the Model. The Controller would be the place where the variables would be updated.
 
-# GDocs
+About the time when I was working with the Xamarin framework, I was also reading the [Elm's guide](https://guide.elm-lang.org/) and I was fascinated by the MVU (Model-View-Update) pattern used in the Elm's Playground module. This pattern naturally breaks a game or other interactive code to 3 parts. Every class, or more precisely, its members define the Model. Moreover if the class implements a constant View function and a mutable Update function, it perfectly conforms to the MVU pattern.
 
-1. music video development process (till release)
-    * ✅mention platform (Processing)
-        1. ~~(it was pain)~~
-			* ✅missing debugger
-            1. ~~pls never again~~
-                1. ✅or at least – try javascript
-        2. ✅ framework adjusted to the song length
-            * ✅ play modes
-            * ✅ need to take into the account the time to render the image
-    2. ✅hand-drawn 2D assets
-	* ✅expensive HDD operations arising from the image loading
-		* ✅load the fireman images when necessary, not at the start of the sketch
-    3. ✅Python scripts
-
-        3. ✅video merging
-
-            4. ✅e.g. mention that the images shall be loaded gradually, not all at once to not run out of memory
-2. after release
-3. making code nicer (fml)
-
-    4. less code in faq file
-
-        4. in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
-        5. variables moved to the Model of the MVU architecture
-
-    5. minimize the usage of OOP
-        6. rather use functional programming
-            5. Optional & Stream – gj
-            6. not very natural requirement in Java
-    6. automatic “destructors” for the transformations. The idea got gradually bigger. Defined a set of operations to handle the whole drawing part of the app
-
-        7. Drawable framework (is it?)
-
-            7. note – simple structure
-
-                2. single functional interface
-                3. + functions that consume and produce more complex drawables
-                4. minimize OOP
-                    1. use functional programming instead
-            8. describe permitted operations in the Drawable fwk (ifDrawable, ifElseDrawable, etc.)
-
-                5. mention uncertainty in stateful drawables (doOnceDrawable)
-    7. split the app according to the MVU pattern seen in ELM’s Playground: [https://elm-lang.org/examples/mario](https://elm-lang.org/examples/mario) – this attempt is unfinished, however large portion of the work has been done.
-        8. Components were introduced – sorta like a state counterpart to the Drawable concept. Should sorta resemble Unity’s component system, but boy, I am not gonna write that! Used at some places but generally did not pay too much attention
-		
-        9. Model – get rid of global variables. Everything lives in the Model, thus if you want an interaction between some variables, you have to access the Model or some of its members
-        10. Functional approach – mention an _attempt_ to design a functional interface, that is – this was an effort, not a final product.
-        11. Drawable vs. Tickable (whatever name) – the first exists, while the second not and is up to the implementer to reflect the need to update the Model – discuss this design decision (start with e.g. makeGame’s Stream in the view vs List in the state).
-    8. example driven development
-
-        12. “I had so many examples of drawables that I was just refactoring an existing implementation to be backwards compatible, that is to keep working even after making the changes”
-	* 🔃CompletableFuture
-		* Monads
-			* Am I going too far for the scope of this project 😬?
-4. HRL
-
-    9. started by hand-written drawable definition, then continued in yml
-        13. image
-        14. chose yml due to being less verbose than json. Was this a good decision?
-    10. grammar + python that consumes the language + hrl code -> DOM-structured hrl code for simpler parsing in the target language. Our target language is java because of the Processing
-    11. mapped to the Drawable framework
-    12. HRL transformation arguments are Suppliers
-    13. to be finished
-    14. some things to think
-        15. e.g. functions to, e.g., not need to define the firetruck light all the time in each drawable
+I decided to adjust the codebase to conform more to the MVU pattern. I only managed to do something like a proof of concept of this effort. However with the previous Transformation refactoring I started getting a feeling that I'm overengineering the codebase. I was thinking about the codebase as a place where I was experimenting with various programming techniques and that this project was becoming a neverending playground. Thus I ended with the MVU conversion before it was finished, leaving the door open for finishing it in the future. Maybe by someone else.
