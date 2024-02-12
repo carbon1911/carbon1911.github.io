@@ -38,6 +38,7 @@ the pros of Processing are:
 
 the cons of Processing are:
 
+// TODO: mention missing stack trace in the examples
 * Limited debugging support from the Processing IDE
 	* e.g., you cannot create a breakpoint when the sketch is ran, so you need to stop it, add the breakpoint and re-run it. I don't want to spend too much time recalling why debugging was a not very happily and thus last used resort during the development. I just recall the desperate feeling when I was falling back to that option.
 		* The question might be whether Processing is a suitable tool for a project where the developer needs to use a debugger? Isn't it meant to be used rather for simple generative sketches centered around a creative usage of a limited set of programming techniques instead of a complex net of an object-oriented class structure?
@@ -58,14 +59,15 @@ if (song.position() > 16.0f)
 ```
 (yeah, I used Allman brackets in Java 🤦‍♀️) The "choking on smoke" lyrics start at approximately 16th second.
 
-The constantly changing scale of the video was adjusted to the song length too. The constraining factors were the initial, cropped scene view and the final scene. The initial scene is magnified by the factor of 1.4055 compared to the final scene, which is not scaled at all (factor 1.0). The rendering was locked to 24 FPS. This would give us a constant Δ per second or frame. I also incorporated an empirically obtained constant to compensate for the frames which needed more than 1/24 of second to render. But I'll get to that later.
+The constantly changing scale of the video was adjusted to the song length too. The constraining factors were the initial, cropped scene view, and the final scene. The initial scene is magnified by the factor of 1.4055. This value was obtained empirically, I was just finding out what portion of the scene looks nice to be displayed in the beginning. I especially tried not to display the telephone or the exit door. The final scene is not scaled at all (factor 1.0). Of course, the scale at the end of the video is not 1 during every run, since the video is rendered in the real time.
+
+The rendering was locked to 24 FPS. This would give us a constant Δ per second or frame. I also incorporated an empirically obtained constant to compensate for the frames which needed more than 1/24 of second to render, which is for example the first few frames of the video. I cannot explain this phenomenon, but I think that it is caused by the system warm-up.
 
 # Play modes
 
 If I remember correctly, the first animations produced were the fire exit and the hanging telephone. I bound the door animation triggering to the letter 'O' and played with the sketch, delighted by watching the door open and close when the 'O' was presseed. It was easy to confirm the things were working when it was possible to trigger them on the user input. The debugging process was getting more complicated with the debugging of more complicated firemen states. I think the most problematic thing was to check the firemen when they were returning back to the firetruck and entering it. First of all, there was a stack of additional transformations applied to the animation images. The firemen are getting gradually smaller as they are getting closer to the firetruck. The animation image is also mirrored. It took me some time (and approximative values) to align the firemen correctly with the firetruck door.
 
-I implemented 3 play modes all of which would output the video in a different manner. The basic play mode called WITH_SONG renders the music video in the real time with a present constant scale change and the playing song. I used capital letters because it is one of the enumeration values of the PlayMode enum. (No, I'm noy yelling (for now).) The output of this game mode resembles the canonic version of the music video on the YouTube. In order to accelerate the development process a bit, I implemented an additional play mode called DEBUG. In the DEBUG play mode the song is not loaded, which on my current computer (IdeaPad 5 14ARE05) saves about 5 seconds per sketch run. The scale change is also disabled in the DEBUG mode. The last play mode is called EXPORT. This mode behaves has enabled scale change and does not load the song. It was used to obtain the final render of the video. The major change consists in a fact that this play mode also saves the rendered image to the disk which is a slow operation. Here we're getting to the frames which took more than 1/24-th of a second to render.
-
+I implemented 3 play modes all of which would output the video in a different manner. The basic play mode called WITH_SONG renders the music video in the real time with a present constant scale change and the playing song. I used capital letters because it is one of the enumeration values of the PlayMode enum. (No, I'm noy yelling (for now).) The output of this game mode resembles the canonic version of the music video on the YouTube. In order to accelerate the development process a bit, I implemented an additional play mode called DEBUG. In the DEBUG play mode the song is not loaded, which on my current computer (IdeaPad 5 14ARE05) saves about 5 seconds per sketch run. The scale change is also disabled in the DEBUG mode. The last play mode is called EXPORT. This mode behaves has enabled scale change and does not load the song. It was used to obtain the final render of the video. The major change consists in a fact that this play mode also saves the rendered image to the disk which is a slow operation. It took something less than a second to render a single frame. I used Processing's `millis` function to measure the time elapsed since the sketch start and used it to trigger the events in the video. You can imagine that the tick functionality was broken, since, e.g., the mentioned smoke would start rendering some time around 16th frame, whereas we wanted it to start around 16th second. And so I overcame this by writing a function which would map elapsed frames to a corresponding elapsed time in milliseconds if the rendering ran exactly 24 FPS. (Now that I'm thinking about it, I could have used this approach in the WITH_SONG play mode too. TODO: check this).
 
 
 # GDocs
@@ -76,9 +78,9 @@ I implemented 3 play modes all of which would output the video in a different ma
 			* ✅missing debugger
             1. ~~pls never again~~
                 1. ✅or at least – try javascript
-        2. 🔃 framework adjusted to the song length
+        2. ✅ framework adjusted to the song length
             * ✅ play modes
-            * need to take into the account the time to render the image
+            * ✅ need to take into the account the time to render the image
     2. hand-drawn 2D assets
 	* expensive HDD operations arising from the image loading
 		* load the fireman images when necessary, not at the start of the sketch
