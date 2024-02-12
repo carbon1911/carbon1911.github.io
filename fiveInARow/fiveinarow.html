@@ -1,0 +1,66 @@
+<!doctype html>
+<!--
+	TODO: 
+		* style in separate file
+		* info
+		* zooming
+		* swipe and keyboard controls
+-->
+<html>
+	<head>
+		<!-- this prevents from zooming -->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
+		<link href='//fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<title>Infinite five in a row</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="shortcut icon" href="gomoku.PNG"/>
+	</head>
+
+	<body>
+		<div id="icon-bar" class="icon-bar">
+			<a href="../index.html">
+				<i id="back" class="fa fa-chevron-left"></i>
+			</a>
+			<i class="fa fa-info-circle">
+				<span class="tooltip">
+					This is a Five in a row game. You need to build a continuous sequence of five stones
+					before the computer. But beware because the computer won't let you do so that easily.
+						
+					<p>
+						Maybe you've played Five in a row in your notebooks with your schoolmates while bored in a class.
+						There you might have noticed that the gameboard is quasi-infinite or limited only by
+						the notebook's dimensions which is a great difference between classical Gomoku game,
+						which is played on 15x15 board, and Five-in-a-row as I knew it. The gameboard in this
+						game is infinite as well. Use the arrows below the gameboard to move across it. Use
+						"center" button to return back to the origin of the gameboard if the situation on it gets too messy.
+						At the bottom of the screen you can see the instructions or the gameboard's offset.
+					</p>
+						
+					<p>
+						Good luck and have fun :)
+					</p>
+				</span>
+			</i>
+		</div>
+		<canvas id="mainCanvas" style="display: inline"></canvas>
+		<script type="module" src="modules/main.js"></script>
+		<div class="box">
+			<span id="up"		class="wrap"><span class="touch"></span></span>
+			<span id="left" 	class="wrap"><span class="touch"></span></span>
+			<span id="down" 	class="wrap"><span class="touch"></span></span>
+			<span id="right" 	class="wrap"><span class="touch"></span></span>
+			
+			<span id="reset" class="resetButton">
+				<p class="caption">center</p>
+			</span>
+			<!--
+				thanks to: 
+				https://stackoverflow.com/questions/30784173/css-put-arrows-on-each-side-of-a-boxdiv
+				for the box div
+			-->
+		</div>
+		<p class="info" id="info">Click on the gameboard to place the initial tile.</p>
+
+	</body>
+</html>
