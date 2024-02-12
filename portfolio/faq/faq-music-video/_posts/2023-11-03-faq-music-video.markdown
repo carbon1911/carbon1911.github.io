@@ -202,7 +202,7 @@ The removal of the "global" variables from the sketch was one of the main driver
 
 # MVU -- Model
 
-The major mental break...through in the refactoring effort was the discovery of the MVU pattern in [ELM’s Playground](https://elm-lang.org/examples/mario). The way I used the MVU patter is that the Model is Updated by the update function. The model is then rendered by the view function. Maybe that's not the MVU pattern anymore, but I think that the MVU pattern is a good way to think about the sketch state. The model is the state of the sketch.
+The major mental break...through in the refactoring effort was the discovery of the MVU pattern in [ELM’s Playground](https://elm-lang.org/examples/mario). The way I used the MVU patter is that the Model is Updated by the update function. The model is then rendered by the view function. Maybe that's not the MVU pattern anymore, but I think that the MVU pattern is a good way to think about the sketch state. The model represents the state of the sketch.
 
 After the refactor, the global variables were moved to the Model. The consequence of the refactor is the emerging order of the variables initialization. Let me explain with a snippet of code:
 
@@ -272,6 +272,8 @@ class faq extends PApplet
 ```
 Note that the first and last line of `faq` class definition is invisible for the Processing developer. I've left the lines just to make the code less confusing for a regular java programmer. The developer only sees the "guts" of the class. This is similar to the [C# Top-level statements](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements).
 
+In the end, my goal was that content of the `faq.pde` resembles the `main` function in the [Elm's Mario](https://elm-lang.org/examples/mario) project. That is, we only say what drawables/tickables will be there, their definitions shall lie elsewhere, e.g., in the `Model` class.
+
 Of course, I considered OK keeping the constants in the `faq` file.
 
 # MVU -- Update & View
@@ -300,7 +302,7 @@ Of course, I considered OK keeping the constants in the `faq` file.
 
     4. 🔃less code in faq file
 
-        4. in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
+        4. ✅in faq we only say what drawables and updates will there be, their definitions shall lie elsewhere
         5. ✅variables moved to the Model of the MVU architecture
 
     5. minimize the usage of OOP
